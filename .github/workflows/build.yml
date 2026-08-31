@@ -19,19 +19,10 @@ jobs:
         with:
           channel: stable
           version: 3.27.1
-      - name: Decode keystore
-        if: ${{ secrets.KEYSTORE_B64 != '' }}
-        run: echo "$KEYSTORE_B64" | base64 -d > keystore.jks
-        env:
-          KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
       - name: Get dependencies
         run: flutter pub get
       - name: Build App Bundle
         run: flutter build appbundle --release
-        env:
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       - uses: actions/upload-artifact@v4
         with:
           name: app-release

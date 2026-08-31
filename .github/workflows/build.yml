@@ -18,9 +18,11 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-          version: 3.27.1
+          flutter-version: 3.27.1
       - name: Generate Android scaffold
         run: flutter create . --platforms=android --org=com.duitku --project-name=duitku
+      - name: Upgrade Gradle wrapper
+        run: sed -i 's|gradle-8.[0-9.]*-all|gradle-8.14-all|g; s|gradle-8.[0-9.]*-bin|gradle-8.14-bin|g' android/gradle/wrapper/gradle-wrapper.properties
       - name: Decode keystore
         run: echo "$KEYSTORE_B64" | base64 -d > keystore.jks
         env:
